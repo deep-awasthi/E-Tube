@@ -1,0 +1,4 @@
+This is a dummy MP4 video file used for testing HTTP range requests and uploads on E-Tube Streaming Platform. Under the hood, the streaming service reads the bytes of this file and serves them chunk-by-chunk using 206 Partial Content range responses.
+Let's add some more padding text here to make sure there are enough bytes to demonstrate seeking and offset byte ranges:
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+End of video stream payload.

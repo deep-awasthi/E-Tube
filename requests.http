@@ -1,0 +1,92 @@
+### E-Tube Streaming Platform API Testing Suite
+
+@host = http://localhost:8080
+@videoId = 1
+
+### 1. Upload Video
+# Uploads a video file along with title and description.
+# Note: sample.mp4 is located in the same directory as this file.
+POST {{host}}/api/videos/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="sample.mp4"
+Content-Type: video/mp4
+
+< ./sample.mp4
+--WebAppBoundary
+Content-Disposition: form-data; name="title"
+
+E-Tube Concurrent Streaming Demo
+--WebAppBoundary
+Content-Disposition: form-data; name="description"
+
+Demonstrating high concurrency streaming with Spring Boot, Redis, and RabbitMQ.
+--WebAppBoundary--
+
+
+### 2. Get All Videos
+# Lists metadata of all uploaded videos from PostgreSQL.
+GET {{host}}/api/videos
+Accept: application/json
+
+
+### 3. Get Video Details by ID (First Hit - Cache Miss)
+# Queries PostgreSQL. Logs will show "Cache miss: Fetching video details from PostgreSQL".
+GET {{host}}/api/videos/{{videoId}}
+Accept: application/json
+
+
+### 4. Get Video Details by ID (Second Hit - Cache Hit)
+# Queries Redis. No SQL logs will be printed. Very low latency response.
+GET {{host}}/api/videos/{{videoId}}
+Accept: application/json
+
+
+### 5. Stream Video - Initial Chunk (No Range Header)
+# Streams the first segment of the video (up to 1MB).
+GET {{host}}/api/videos/{{videoId}}/stream
+Accept: video/mp4
+
+
+### 6. Stream Video - Seek Range (Bytes 0-100)
+# Simulates player requesting the first 101 bytes. Response will be 206 Partial Content.
+GET {{host}}/api/videos/{{videoId}}/stream
+Range: bytes=0-100
+Accept: video/mp4
+
+
+### 7. Stream Video - Seek Range (Bytes 101-300)
+# Simulates seeking to a mid-point in the video.
+GET {{host}}/api/videos/{{videoId}}/stream
+Range: bytes=101-300
+Accept: video/mp4
+
+
+### 8. Post a Comment to the Video (Stored in MongoDB)
+# Saves user feedback to MongoDB for high throughput write scaling.
+POST {{host}}/api/videos/{{videoId}}/comments
+Content-Type: application/json
+
+{
+  "author": "TechVlogger",
+  "content": "This byte-range streaming works seamlessly! Great stuff."
+}
+
+
+### 9. Get Comments for the Video
+# Fetches all comments from MongoDB sorted by creation time.
+GET {{host}}/api/videos/{{videoId}}/comments
+Accept: application/json
+
+
+### 10. Record a Video View (Asynchronous Event-Driven Integration)
+# Triggers a view log. Returns 202 Accepted immediately without database blockages.
+# RabbitMQ will process this to increment views in SQL and write logs to MongoDB.
+POST {{host}}/api/videos/{{videoId}}/view
+
+
+### 11. Get Video Details (Verify incremented views)
+# Re-fetches details to observe the updated view count (cache is evicted automatically).
+GET {{host}}/api/videos/{{videoId}}
+Accept: application/json

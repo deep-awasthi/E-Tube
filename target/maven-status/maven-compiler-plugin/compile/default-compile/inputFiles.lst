@@ -1,0 +1,15 @@
+/Users/deepawasthi/Developer/E-Tube/src/main/java/com/etube/EtubeApplication.java
+/Users/deepawasthi/Developer/E-Tube/src/main/java/com/etube/config/RabbitMQConfig.java
+/Users/deepawasthi/Developer/E-Tube/src/main/java/com/etube/config/RedisConfig.java
+/Users/deepawasthi/Developer/E-Tube/src/main/java/com/etube/controller/CommentController.java
+/Users/deepawasthi/Developer/E-Tube/src/main/java/com/etube/controller/VideoController.java
+/Users/deepawasthi/Developer/E-Tube/src/main/java/com/etube/messaging/EventConsumer.java
+/Users/deepawasthi/Developer/E-Tube/src/main/java/com/etube/messaging/EventPublisher.java
+/Users/deepawasthi/Developer/E-Tube/src/main/java/com/etube/model/mongo/Comment.java
+/Users/deepawasthi/Developer/E-Tube/src/main/java/com/etube/model/mongo/ViewLog.java
+/Users/deepawasthi/Developer/E-Tube/src/main/java/com/etube/model/postgres/Video.java
+/Users/deepawasthi/Developer/E-Tube/src/main/java/com/etube/repository/mongo/CommentRepository.java
+/Users/deepawasthi/Developer/E-Tube/src/main/java/com/etube/repository/mongo/ViewLogRepository.java
+/Users/deepawasthi/Developer/E-Tube/src/main/java/com/etube/repository/postgres/VideoRepository.java
+/Users/deepawasthi/Developer/E-Tube/src/main/java/com/etube/service/CommentService.java
+/Users/deepawasthi/Developer/E-Tube/src/main/java/com/etube/service/VideoService.java
